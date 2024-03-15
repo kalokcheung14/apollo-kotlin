@@ -64,7 +64,6 @@ abstract class AarRelocateTransform : TransformAction<AarRelocateTransform.Param
             return@input
           }
 
-
           if (entry.name == "classes.jar") {
             val rules = renames.entries.map {
               Relocation(it.key, it.value)
@@ -95,6 +94,11 @@ abstract class AarRelocateTransform : TransformAction<AarRelocateTransform.Param
             relocatorOutput.inputStream().use {
               it.transferTo(zipOutputStream)
             }
+          } else if (entry.name == "AndroidManifest.xml") {
+            zipOutputStream.putNextEntry(entry)
+
+            val newContent = zipInputStream.reader().readText().replace("com.apollographql.apollo3.cache.normalized", "com.apollographql.apollo3.cache.normalized.incubating")
+            zipOutputStream.write(newContent.encodeToByteArray())
           } else {
             zipOutputStream.putNextEntry(entry)
             zipInputStream.transferTo(zipOutputStream)

@@ -49,7 +49,6 @@ dependencies {
   ).forEach {
     val ga = it.key
     val platform = it.value
-    implementation("$ga-$platform")
     /**
      * Because we want to test both artifacts and they contain the same symbols, relocate the incubating ones
      */
@@ -57,7 +56,6 @@ dependencies {
       attributes {
         attribute(relocated, true)
       }
-      isTransitive = false
     }
   }
   implementation(libs.moshi)
