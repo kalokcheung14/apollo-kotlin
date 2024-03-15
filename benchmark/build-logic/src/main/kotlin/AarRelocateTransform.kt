@@ -97,7 +97,9 @@ abstract class AarRelocateTransform : TransformAction<AarRelocateTransform.Param
           } else if (entry.name == "AndroidManifest.xml") {
             zipOutputStream.putNextEntry(entry)
 
-            val newContent = zipInputStream.reader().readText().replace("com.apollographql.apollo3.cache.normalized", "com.apollographql.apollo3.cache.normalized.incubating")
+            val newContent = renames.entries.fold(zipInputStream.reader().readText()) { acc, item ->
+              acc.replace(item.key, item.value)
+            }
             zipOutputStream.write(newContent.encodeToByteArray())
           } else {
             zipOutputStream.putNextEntry(entry)

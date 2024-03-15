@@ -9,14 +9,14 @@ import com.apollographql.apollo3.benchmark.Utils.dbName
 import com.apollographql.apollo3.benchmark.Utils.operationBasedQuery
 import com.apollographql.apollo3.benchmark.Utils.resource
 import com.apollographql.apollo3.benchmark.test.R
-import com.apollographql.apollo3.cache.normalized.incubating.ApolloStore
-import com.apollographql.apollo3.cache.normalized.incubating.api.CacheKeyGenerator
-import com.apollographql.apollo3.cache.normalized.incubating.api.CacheResolver
-import com.apollographql.apollo3.cache.normalized.incubating.api.FieldPolicyCacheResolver
-import com.apollographql.apollo3.cache.normalized.incubating.api.MemoryCacheFactory
-import com.apollographql.apollo3.cache.normalized.incubating.api.NormalizedCacheFactory
-import com.apollographql.apollo3.cache.normalized.incubating.api.TypePolicyCacheKeyGenerator
-import com.apollographql.apollo3.cache.normalized.incubating.sql.SqlNormalizedCacheFactory
+import com.apollographql.apollo3.cache.normalized.ApolloStore
+import com.apollographql.apollo3.cache.normalized.api.CacheKeyGenerator
+import com.apollographql.apollo3.cache.normalized.api.CacheResolver
+import com.apollographql.apollo3.cache.normalized.api.FieldPolicyCacheResolver
+import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
+import com.apollographql.apollo3.cache.normalized.api.NormalizedCacheFactory
+import com.apollographql.apollo3.cache.normalized.api.TypePolicyCacheKeyGenerator
+import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
@@ -87,7 +87,7 @@ class ApolloStoreIncubatingTests {
      * methods
      * See https://discuss.kotlinlang.org/t/what-is-the-proper-way-to-repackage-shade-kotlin-dependencies/10869
      */
-    private val apolloStoreKtClass = Class.forName("com.apollographql.apollo3.cache.normalized.incubating.ApolloStoreKt")
+    private val apolloStoreKtClass = Class.forName("com.apollographql.apollo3.cache.normalized.ApolloStoreKt")
     private val createApolloStoreMethod: Method = apolloStoreKtClass.getMethod(
         "ApolloStore",
         NormalizedCacheFactory::class.java,

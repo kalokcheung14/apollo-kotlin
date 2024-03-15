@@ -22,7 +22,7 @@ dependencies {
   }
 
   val relocations = mapOf(
-      "com.apollographql.apollo3.cache.normalized" to "com.apollographql.apollo3.cache.normalized.incubating",
+      "com.apollographql.apollo3.cache.normalized" to "com.apollographql.apollo3.cache.normalized",
   )
 
   registerTransform(JarRelocateTransform::class) {
@@ -56,8 +56,13 @@ dependencies {
       attributes {
         attribute(relocated, true)
       }
+      isTransitive = false
     }
   }
+  implementation(libs.sqldelight.android)
+  implementation(libs.androidx.sqlite.framework)
+  implementation(libs.androidx.startup.runtime)
+  implementation(libs.androidx.sqlite)
   implementation(libs.moshi)
   ksp(libs.moshix.ksp)
 
