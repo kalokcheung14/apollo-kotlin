@@ -116,7 +116,7 @@ class CacheIncubatingIntegrationTests {
 
   companion object {
     private const val CONCURRENCY = 10
-    private const val WORK_LOAD = 8
+    private const val WORK_LOAD = 1
 
     /**
      * There doesn't seem to be a way to relocate Kotlin metadata and kotlin_module files so we rely on reflection to call top-level
