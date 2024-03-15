@@ -28,11 +28,11 @@ import com.apollographql.apollo3.annotations.ApolloExperimental
 import com.apollographql.apollo3.api.json.jsonReader
 import com.apollographql.apollo3.api.parseJsonResponse
 import com.apollographql.apollo3.api.parseResponse
-import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
-import com.apollographql.apollo3.cache.normalized.apolloStore
-import com.apollographql.apollo3.cache.normalized.fetchPolicy
-import com.apollographql.apollo3.cache.normalized.normalizedCache
+import com.apollographql.apollo3.cache.normalized.incubating.FetchPolicy
+import com.apollographql.apollo3.cache.normalized.incubating.api.MemoryCacheFactory
+import com.apollographql.apollo3.cache.normalized.incubating.apolloStore
+import com.apollographql.apollo3.cache.normalized.incubating.fetchPolicy
+import com.apollographql.apollo3.cache.normalized.incubating.normalizedCache
 import com.apollographql.sample.GetResponse0Query
 import com.apollographql.sample.GetResponse1Query
 import com.apollographql.sample.GetResponse2Query

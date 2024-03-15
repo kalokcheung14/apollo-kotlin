@@ -22,7 +22,7 @@ dependencies {
   }
 
   val relocations = mapOf(
-      "com.apollographql.apollo3.cache.normalized" to "com.apollographql.apollo3.cache.normalized",
+      "com.apollographql.apollo3.cache.normalized" to "com.apollographql.apollo3.cache.normalized.incubating",
   )
 
   registerTransform(JarRelocateTransform::class) {

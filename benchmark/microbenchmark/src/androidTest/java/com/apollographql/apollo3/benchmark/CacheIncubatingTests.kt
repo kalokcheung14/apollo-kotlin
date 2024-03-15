@@ -16,16 +16,16 @@ import com.apollographql.apollo3.benchmark.Utils.registerCacheSize
 import com.apollographql.apollo3.benchmark.Utils.resource
 import com.apollographql.apollo3.benchmark.Utils.responseBasedQuery
 import com.apollographql.apollo3.benchmark.test.R
-import com.apollographql.apollo3.cache.normalized.api.CacheHeaders
-import com.apollographql.apollo3.cache.normalized.api.CacheKeyGenerator
-import com.apollographql.apollo3.cache.normalized.api.CacheResolver
-import com.apollographql.apollo3.cache.normalized.api.DefaultRecordMerger
-import com.apollographql.apollo3.cache.normalized.api.FieldPolicyCacheResolver
-import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
-import com.apollographql.apollo3.cache.normalized.api.ReadOnlyNormalizedCache
-import com.apollographql.apollo3.cache.normalized.api.Record
-import com.apollographql.apollo3.cache.normalized.api.TypePolicyCacheKeyGenerator
-import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
+import com.apollographql.apollo3.cache.normalized.incubating.api.CacheHeaders
+import com.apollographql.apollo3.cache.normalized.incubating.api.CacheKeyGenerator
+import com.apollographql.apollo3.cache.normalized.incubating.api.CacheResolver
+import com.apollographql.apollo3.cache.normalized.incubating.api.DefaultRecordMerger
+import com.apollographql.apollo3.cache.normalized.incubating.api.FieldPolicyCacheResolver
+import com.apollographql.apollo3.cache.normalized.incubating.api.MemoryCacheFactory
+import com.apollographql.apollo3.cache.normalized.incubating.api.ReadOnlyNormalizedCache
+import com.apollographql.apollo3.cache.normalized.incubating.api.Record
+import com.apollographql.apollo3.cache.normalized.incubating.api.TypePolicyCacheKeyGenerator
+import com.apollographql.apollo3.cache.normalized.incubating.sql.SqlNormalizedCacheFactory
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Rule
@@ -171,7 +171,7 @@ class CacheIncubatingTests {
      * methods
      * See https://discuss.kotlinlang.org/t/what-is-the-proper-way-to-repackage-shade-kotlin-dependencies/10869
      */
-    private val clazz = Class.forName("com.apollographql.apollo3.cache.normalized.api.OperationCacheExtensionsKt")
+    private val clazz = Class.forName("com.apollographql.apollo3.cache.normalized.incubating.api.OperationCacheExtensionsKt")
     private val normalizeMethod: Method = clazz.getMethod(
         "normalize",
         Operation::class.java,

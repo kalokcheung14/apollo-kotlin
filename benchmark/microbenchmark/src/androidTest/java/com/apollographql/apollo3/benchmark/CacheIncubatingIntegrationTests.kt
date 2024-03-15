@@ -3,23 +3,24 @@ package com.apollographql.apollo3.benchmark
 import androidx.benchmark.junit4.BenchmarkRule
 import androidx.benchmark.junit4.measureRepeated
 import androidx.test.platform.app.InstrumentationRegistry
+import com.apollographql.apollo3.ApolloCall
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.api.MutableExecutionOptions
 import com.apollographql.apollo3.api.json.jsonReader
 import com.apollographql.apollo3.api.parseJsonResponse
 import com.apollographql.apollo3.benchmark.Utils.dbName
 import com.apollographql.apollo3.benchmark.Utils.operationBasedQuery
 import com.apollographql.apollo3.benchmark.Utils.resource
 import com.apollographql.apollo3.benchmark.test.R
-import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.apollographql.apollo3.cache.normalized.fetchPolicy
-import com.apollographql.apollo3.cache.normalized.ApolloStore
-import com.apollographql.apollo3.cache.normalized.api.CacheKeyGenerator
-import com.apollographql.apollo3.cache.normalized.api.CacheResolver
-import com.apollographql.apollo3.cache.normalized.api.FieldPolicyCacheResolver
-import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
-import com.apollographql.apollo3.cache.normalized.api.NormalizedCacheFactory
-import com.apollographql.apollo3.cache.normalized.api.TypePolicyCacheKeyGenerator
-import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
+import com.apollographql.apollo3.cache.normalized.incubating.FetchPolicy
+import com.apollographql.apollo3.cache.normalized.incubating.ApolloStore
+import com.apollographql.apollo3.cache.normalized.incubating.api.CacheKeyGenerator
+import com.apollographql.apollo3.cache.normalized.incubating.api.CacheResolver
+import com.apollographql.apollo3.cache.normalized.incubating.api.FieldPolicyCacheResolver
+import com.apollographql.apollo3.cache.normalized.incubating.api.MemoryCacheFactory
+import com.apollographql.apollo3.cache.normalized.incubating.api.NormalizedCacheFactory
+import com.apollographql.apollo3.cache.normalized.incubating.api.TypePolicyCacheKeyGenerator
+import com.apollographql.apollo3.cache.normalized.incubating.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo3.mockserver.MockRequestBase
 import com.apollographql.apollo3.mockserver.MockResponse
 import com.apollographql.apollo3.mockserver.MockServer
@@ -93,8 +94,8 @@ class CacheIncubatingIntegrationTests {
           launch {
             // Let each job execute a few queries
             repeat(WORK_LOAD) {
-              client.query(operationBasedQuery).fetchPolicy(FetchPolicy.NetworkOnly).execute().dataOrThrow()
-              client.query(operationBasedQuery).fetchPolicy(FetchPolicy.CacheOnly).execute().dataOrThrow()
+              (fetchPolicyMethod.invoke(null, client.query(operationBasedQuery), FetchPolicy.NetworkOnly) as ApolloCall<*>).execute().dataOrThrow()
+              (fetchPolicyMethod.invoke(null, client.query(operationBasedQuery), FetchPolicy.CacheOnly) as ApolloCall<*>).execute().dataOrThrow()
             }
           }
         }
@@ -123,7 +124,7 @@ class CacheIncubatingIntegrationTests {
      * methods
      * See https://discuss.kotlinlang.org/t/what-is-the-proper-way-to-repackage-shade-kotlin-dependencies/10869
      */
-    private val apolloStoreKtClass = Class.forName("com.apollographql.apollo3.cache.normalized.ApolloStoreKt")
+    private val apolloStoreKtClass = Class.forName("com.apollographql.apollo3.cache.normalized.incubating.ApolloStoreKt")
     private val createApolloStoreMethod: Method = apolloStoreKtClass.getMethod(
         "ApolloStore",
         NormalizedCacheFactory::class.java,
@@ -131,12 +132,18 @@ class CacheIncubatingIntegrationTests {
         CacheResolver::class.java,
     )
 
-    private val NormalizedCacheClass = Class.forName("com.apollographql.apollo3.cache.normalized.NormalizedCache")
+    private val NormalizedCacheClass = Class.forName("com.apollographql.apollo3.cache.normalized.incubating.NormalizedCache")
     private val storeMethod: Method = NormalizedCacheClass.getMethod(
         "store",
         ApolloClient.Builder::class.java,
         ApolloStore::class.java,
         Boolean::class.java,
+    )
+
+    private val fetchPolicyMethod: Method = NormalizedCacheClass.getMethod(
+        "fetchPolicy",
+        MutableExecutionOptions::class.java,
+        FetchPolicy::class.java,
     )
 
     private fun ApolloClient.Builder.store(store: ApolloStore): ApolloClient.Builder {

@@ -8,8 +8,6 @@ import com.apollographql.apollo3.api.parseJsonResponse
 import com.apollographql.apollo3.benchmark.Utils.resource
 import com.apollographql.apollo3.benchmark.moshi.Query
 import com.apollographql.apollo3.benchmark.test.R
-import com.apollographql.apollo3.cache.normalized.api.TypePolicyCacheKeyGenerator
-import com.apollographql.apollo3.cache.normalized.api.normalize
 import com.squareup.moshi.Moshi
 import org.junit.Rule
 import org.junit.Test
@@ -35,7 +33,6 @@ class JsonTests {
     val data = runWithTimingDisabled {
       operation.parseJsonResponse(resource(R.raw.largesample).jsonReader(), customScalarAdapters).data!!
     }
-    operation.normalize(data, customScalarAdapters, TypePolicyCacheKeyGenerator)
   }
 
   companion object {
