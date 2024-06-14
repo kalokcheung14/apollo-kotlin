@@ -171,7 +171,7 @@ internal class DefaultApolloStore(
     return changedKeys
   }
 
-  override fun <D : Operation.Data> writeOperation(operation: Operation<D>, operationData: D, customScalarAdapters: CustomScalarAdapters, cacheHeaders: CacheHeaders): Set<String> {
+  private fun <D : Operation.Data> writeOperation(operation: Operation<D>, operationData: D, customScalarAdapters: CustomScalarAdapters, cacheHeaders: CacheHeaders): Set<String> {
     val records = operation.normalize(
         data = operationData,
         customScalarAdapters = customScalarAdapters,
@@ -202,7 +202,7 @@ internal class DefaultApolloStore(
     return changedKeys
   }
 
-  override fun <D : Fragment.Data> writeFragment(
+  private fun <D : Fragment.Data> writeFragment(
       fragment: Fragment<D>,
       cacheKey: CacheKey,
       fragmentData: D,
@@ -239,7 +239,7 @@ internal class DefaultApolloStore(
     return changedKeys
   }
 
-  override fun <D : Operation.Data> writeOptimisticUpdates(
+  private fun <D : Operation.Data> writeOptimisticUpdates(
       operation: Operation<D>,
       operationData: D,
       mutationId: Uuid,
@@ -279,7 +279,7 @@ internal class DefaultApolloStore(
     return changedKeys
   }
 
-  override fun rollbackOptimisticUpdates(
+  private fun rollbackOptimisticUpdates(
       mutationId: Uuid,
   ): Set<String> {
     val changedKeys = lock.write {
